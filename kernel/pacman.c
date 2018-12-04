@@ -177,14 +177,18 @@ void create_new_ghost()
     choose_random_direction(&dx, &dy);
 
     while (1) {
-        int             delay;
-        for (delay = 0; delay < 1000000; delay++);
+        sleep(10);
         while (move_ghost(&ghost, dx, dy) == FALSE)
             choose_random_direction(&dx, &dy);
     }
 }
 
 
+void ghost_proc(PROCESS self, PARAM param)
+{
+    create_new_ghost();
+    become_zombie();
+}
 
 
 void init_pacman(WINDOW * wnd, int num_ghosts)
@@ -196,7 +200,8 @@ void init_pacman(WINDOW * wnd, int num_ghosts)
 
     draw_maze();
 
-    int             j;
-    for (j = 0; j < num_ghosts; j++)
-        create_new_ghost();
+    int             i;
+    for (i = 0; i < num_ghosts; i++)
+        create_process(ghost_proc, 3, 0, "Ghost");
+    return;
 }
