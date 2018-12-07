@@ -1,5 +1,5 @@
 #include <kernel.h>
-
+void shell_process(PROCESS self, PARAM param);
 
 
 // this function is called from the main and it creates a shell process
@@ -17,13 +17,13 @@ void shell_process(PROCESS self, PARAM param)
     int window_id_1 = wm_create(10,3,50,17);
     wm_clear(window_id_1);
     
-    wm_print("Hello world \n");
+    wm_print(window_id_1, "Hello world \n");
 
     wm_print_char(window_id_1,"#");
     
     while(1)
     {
-        msg.key_buffer = &ch;
+        message.key_buffer = &ch;
 	    send(keyb_port, &message);
     
         }
