@@ -1,17 +1,98 @@
 #include <kernel.h>
 # define BUFFER_LENGTH 50   // max length of buffer
+#define HISTORY_BUFFER_SIZE 5
+
 char command_buffer[BUFFER_LENGTH]; // this is for the command buffer 
 int i = 0; // count for the buffer
 int window_id_1;
 void shell_process(PROCESS self, PARAM param);
 
 
+typedef struct _command_hist HISTORY;
+typedef HISTORY* HISTORY_PTR;
 
-//store_command(){
-//    malloc(c);
-//    copuy command_buffer into c
-//}
+struct _command_hist {
+    short num;
+    char command[BUFFER_LENGTH];
+};
 
+// this is where we store the pointers to the buffer elements
+HISTORY_PTR command_ptr[HISTORY_BUFFER_SIZE] ;
+
+short current_buffer_pointer = 0;
+int global_command_count = 1;
+BOOL overflow = FALSE;
+
+void store_command(){
+    if(overflow){
+        free(command_ptr[current_buffer_pointer]);
+    }
+    
+    if(current_buffer_pointer<HISTORY_BUFFER_SIZE)
+    {
+    // allocate memory for the command
+    command_ptr[current_buffer_pointer] = (HISTORY_PTR) malloc(sizeof(HISTORY));
+    // store the number
+    command_ptr[current_buffer_pointer] -> num = global_command_count++;
+    // store teh command
+    for(int i = 0; (command_buffer[i]) != '\0' ; i++)
+    {
+        command_ptr[current_buffer_pointer] -> command[i] = command_buffer[i];
+    }
+    current_buffer_pointer++;
+    }
+
+    
+    else if(current_buffer_pointer % HISTORY_BUFFER_SIZE == 0){
+        current_buffer_pointer = 0;
+        overflow = TRUE;
+        store_command();
+    }
+    
+    
+    
+    
+    
+    }
+
+/*----------------------------------------------------------------*/
+
+void history()
+{
+    int i;
+    if(!overflow){
+        for(i=0;i<current_buffer_pointer;i++){
+        wm_print(window_id_1, "%d", (command_ptr[i]->num) );
+        wm_print(window_id_1, "          " );
+        for(int j =0; j< BUFFER_LENGTH ;j++ )
+        {
+            wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
+        }
+        wm_print(window_id_1, "\n");    
+        }
+        }
+    else
+    {
+        int k = current_buffer_pointer;
+        for(int i=0;i< HISTORY_BUFFER_SIZE;i++)
+        {
+            wm_print(window_id_1, "%d", (command_ptr[k]->num) );
+            wm_print(window_id_1, "          " );
+            for(int j =0; j< BUFFER_LENGTH ;j++ )
+            {
+                wm_print(window_id_1, "%c", (command_ptr[k]->command[j]) );
+            }
+            wm_print(window_id_1, "\n");    
+            k++;
+            if(k == HISTORY_BUFFER_SIZE){
+                k = 0;
+            }
+        }
+    }
+
+    
+    
+}
 
 
 
@@ -45,11 +126,10 @@ void new_shell(){ // shell command
  	resign();
 }
 
-
 /*----------------------------------------------------------------*/
 
 void pong(){ // pong command
-
+    start_pong();
 }
 
 /*----------------------------------------------------------------*/
@@ -113,12 +193,6 @@ void wm_print_processes(int window_id){ // ps command
 void printAllProcesses(){
 	wm_print_processes(window_id_1);
 }
-
-/*----------------------------------------------------------------*/
-
-void history(){
-    wm_print(window_id_1,"You didnt implement me yet! You moron\n");
-    }
 
 /*----------------------------------------------------------------*/
 
@@ -257,8 +331,9 @@ void shell_process(PROCESS self, PARAM param)
                 {
 					command_buffer[i]='\0';
 					wm_print(window_id_1, "\n");
-					run_command();
-				    //store_command();
+					
+				    store_command();
+                    run_command();
                     i=0;
 					clear_command_buffer();
 
