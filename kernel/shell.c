@@ -1,76 +1,83 @@
 #include <kernel.h>
 # define BUFFER_LENGTH 50   // max length of buffer
-#define HISTORY_BUFFER_SIZE 5
+#define HISTORY_BUFFER_SIZE 10 // number of commands stored in history
 
 char command_buffer[BUFFER_LENGTH]; // this is for the command buffer 
 int i = 0; // count for the buffer
-int window_id_1;
-void shell_process(PROCESS self, PARAM param);
+int window_id_1; // window_id decleration
+void shell_process(PROCESS self, PARAM param); // declaration of shell_process function
 
-
+// type defining structure and pointer to structure
 typedef struct _command_hist HISTORY;
 typedef HISTORY* HISTORY_PTR;
 
+// defining data structure for commands in history
 struct _command_hist {
-    short num;
-    char command[BUFFER_LENGTH];
+    short num; // the number of the command
+    char command[BUFFER_LENGTH]; //the actual command
 };
 
-// this is where we store the pointers to the buffer elements
+// this is where we store the pointers to the structure HISTORY
 HISTORY_PTR command_ptr[HISTORY_BUFFER_SIZE] ;
 
-short current_buffer_pointer = 0;
-int global_command_count = 1;
-BOOL overflow = FALSE;
+short current_buffer_pointer = 0; // this variable keeps track of the current command history structure address in the array command_pt[]
+int global_command_count = 1; // this variable for numbering the commands
+BOOL overflow = FALSE; // indecates teh overflow of the command history
 
-void store_command(){
-    if(overflow){
+/*----------------------------------------------------------------*/
+
+// this command is used to store the command_buffer into the command variable of the respective HISTORY structure
+void store_command()
+{
+    if(overflow)
+    {
         free(command_ptr[current_buffer_pointer]);
     }
     
     if(current_buffer_pointer<HISTORY_BUFFER_SIZE)
     {
-    // allocate memory for the command
-    command_ptr[current_buffer_pointer] = (HISTORY_PTR) malloc(sizeof(HISTORY));
-    // store the number
-    command_ptr[current_buffer_pointer] -> num = global_command_count++;
-    // store the command
-    for(int i = 0; (command_buffer[i]) != '\0' ; i++)
-    {
-        command_ptr[current_buffer_pointer] -> command[i] = command_buffer[i];
-    }
-    current_buffer_pointer++;
+        // allocate memory for the command
+        command_ptr[current_buffer_pointer] = (HISTORY_PTR) malloc(sizeof(HISTORY));
+        // store the number
+        command_ptr[current_buffer_pointer] -> num = global_command_count++;
+        // store the command
+        for(int i = 0; (command_buffer[i]) != '\0' ; i++)
+        {
+            command_ptr[current_buffer_pointer] -> command[i] = command_buffer[i];
+        }
+        current_buffer_pointer++;
     }
 
     
-    else if(current_buffer_pointer % HISTORY_BUFFER_SIZE == 0){
+    else if(current_buffer_pointer % HISTORY_BUFFER_SIZE == 0)
+    {
         current_buffer_pointer = 0;
         overflow = TRUE;
         store_command();
-    }
+    }    
     
-    
-    
-    
-    
-    }
+}
 
 /*----------------------------------------------------------------*/
 
+// this command is used to print the history
 void history()
 {
     int i;
-    if(!overflow){
-        for(i=0;i<current_buffer_pointer;i++){
-        wm_print(window_id_1, "%d", (command_ptr[i]->num) );
-        wm_print(window_id_1, "          " );
-        for(int j =0; j< BUFFER_LENGTH ;j++ )
+    if(!overflow)
+    {
+        for(i=0;i<current_buffer_pointer;i++)
         {
-            wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
+            wm_print(window_id_1, "%d", (command_ptr[i]->num) );
+            wm_print(window_id_1, "          " );
+            
+            for(int j =0; command_ptr[i]-> command[j]!= '\0' /*j< BUFFER_LENGTH*/ ;j++ )
+                wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
+            }
+            wm_print(window_id_1, "\n");    
         }
-        wm_print(window_id_1, "\n");    
-        }
-        }
+    }
+    
     else
     {
         int k = current_buffer_pointer;
@@ -78,6 +85,7 @@ void history()
         {
             wm_print(window_id_1, "%d", (command_ptr[k]->num) );
             wm_print(window_id_1, "          " );
+    
             for(int j =0; j< BUFFER_LENGTH ;j++ )
             {
                 wm_print(window_id_1, "%c", (command_ptr[k]->command[j]) );
@@ -88,10 +96,7 @@ void history()
                 k = 0;
             }
         }
-    }
-
-    
-    
+    }    
 
 }
 
@@ -263,9 +268,6 @@ void clear_command_buffer(){ // function to clear buffer
 
 
 
-
-
-
 void run_command(){
 	char* cmd = &command_buffer[0];
 	
@@ -313,6 +315,74 @@ void run_command(){
 	}
     
 }
+
+
+
+
+
+
+
+void check_for_multiple_commands()
+{
+    // this function checks if the given command has multiple commands seperated by 
+    BOOL found = FALSE;
+    int index; 
+    //wm_print(window_id_1, "checking for multiple commands");
+
+    // the function is called after the execution of the first command hence we search the buffer so see if it contains a ;
+    for(int i=0; i<BUFFER_LENGTH ;i++)
+    {
+        if(command_buffer[i] == (char)';')
+        {
+            found = TRUE;
+            index = i;
+            break;
+        }
+    }
+
+    if(found)
+    {
+        //slice the buffer to remove the first command
+        for(int i=0; i< BUFFER_LENGTH ;i++)
+        {
+            command_buffer[i] = command_buffer[i+index+1];
+            if(command_buffer[i] == '\0'){
+                break;
+            }
+        }
+    
+    
+    
+    // remove white spaces before the next command
+    {
+        // detect whitespaces
+        for(int i = 0; i<BUFFER_LENGTH ; i++){
+            index = i;
+            if(command_buffer[i]!= (char)' '){
+                break;
+            }
+        }
+
+        for(int i=0; i<BUFFER_LENGTH ; i++)
+        {
+            command_buffer[i] = command_buffer[i+index];
+        
+        
+        if (command_buffer[i+index] == (char)'\0')
+        {
+            break;
+        }
+
+        }
+    }
+
+    
+    run_command();
+    check_for_multiple_commands(); // check if there is another command
+    }
+}
+
+
 
 
 
