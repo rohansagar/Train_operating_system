@@ -3,13 +3,12 @@
 #define HISTORY_BUFFER_SIZE 10 // number of commands stored in history
 
 char command_buffer[BUFFER_LENGTH]; // this is for the command buffer 
-int i = 0; // count for the buffer
-int window_id_1; // window_id decleration
 void shell_process(PROCESS self, PARAM param); // declaration of shell_process function
-
 // type defining structure and pointer to structure
 typedef struct _command_hist HISTORY;
 typedef HISTORY* HISTORY_PTR;
+    int window_id_1;
+    int i;
 
 // defining data structure for commands in history
 struct _command_hist {
@@ -29,18 +28,21 @@ BOOL overflow = FALSE; // indecates teh overflow of the command history
 // this command is used to store the command_buffer into the command variable of the respective HISTORY structure
 void store_command()
 {
+    // check if the buffer has overflown atleast once
     if(overflow)
     {
-        free(command_ptr[current_buffer_pointer]);
+        free(command_ptr[current_buffer_pointer]); // this is only done if the buffer has already overflown
     }
     
-    if(current_buffer_pointer<HISTORY_BUFFER_SIZE)
+    if(current_buffer_pointer < HISTORY_BUFFER_SIZE)
     {
         // allocate memory for the command
         command_ptr[current_buffer_pointer] = (HISTORY_PTR) malloc(sizeof(HISTORY));
+        
         // store the number
         command_ptr[current_buffer_pointer] -> num = global_command_count++;
-        // store the command
+        
+        // store the command into the history structure
         for(int i = 0; (command_buffer[i]) != '\0' ; i++)
         {
             command_ptr[current_buffer_pointer] -> command[i] = command_buffer[i];
@@ -49,7 +51,7 @@ void store_command()
     }
 
     
-    else if(current_buffer_pointer % HISTORY_BUFFER_SIZE == 0)
+    else if(current_buffer_pointer % HISTORY_BUFFER_SIZE == 0) // sets buffer overflow indicators
     {
         current_buffer_pointer = 0;
         overflow = TRUE;
@@ -64,31 +66,37 @@ void store_command()
 void history()
 {
     int i;
-    if(!overflow)
+    if(!overflow) // check if the buffer was overflown
     {
+        // printing the history
         for(i=0;i<current_buffer_pointer;i++)
         {
             wm_print(window_id_1, "%d", (command_ptr[i]->num) );
             wm_print(window_id_1, "          " );
             
+            // printing the command inside the HISTORY structure
             for(int j =0; command_ptr[i]-> command[j]!= '\0' /*j< BUFFER_LENGTH*/ ;j++ )
+            {
                 wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
             }
             wm_print(window_id_1, "\n");    
         }
     }
     
+    
     else
     {
+        // printing history in case of no overflow
         int k = current_buffer_pointer;
         for(int i=0;i< HISTORY_BUFFER_SIZE;i++)
         {
             wm_print(window_id_1, "%d", (command_ptr[k]->num) );
             wm_print(window_id_1, "          " );
-    
+            
+            // printing the command inside the HISTORY structure
             for(int j =0; j< BUFFER_LENGTH ;j++ )
             {
-                wm_print(window_id_1, "%c", (command_ptr[k]->command[j]) );
+                (window_id_1, "%c", (command_ptr[k]->command[j]) );
             }
             wm_print(window_id_1, "\n");    
             k++;
@@ -120,29 +128,29 @@ void Help(){ // Help Comamnd
 
 /*----------------------------------------------------------------*/
 
-void clearShellWindow(){// cls command
+void clearShellWindow(){// cls command clears the window
     wm_clear(window_id_1);
 }
 
 /*----------------------------------------------------------------*/
 
-void new_shell(){ // shell command
-    
+void new_shell(){ // shell command- opens a new shell
+    // create a new shell process with same priority as the current one
     create_process(shell_process,3,0,"shell_2");
  	resign();
 }
 
 /*----------------------------------------------------------------*/
 
-void pong(){ // pong command
+void pong(){ // pong command: starts pong game
     start_pong();
 }
 
 /*----------------------------------------------------------------*/
 
-void echo(){ // echo command
-	char* toEcho = command_buffer+5;
-	wm_print(window_id_1,toEcho);
+void echo(){ // echo command: prints whatever is after the echo 
+	char* echo_temp = command_buffer+5;
+	wm_print(window_id_1, echo_temp);
 	wm_print(window_id_1,"\n");
 }
 
@@ -201,34 +209,40 @@ void printAllProcesses(){
 }
 
 /*----------------------------------------------------------------*/
-
-void number(){
+// this function tis used to retreive and execute a command from the command history
+void number()
+{
+   //storing the number that is inputted into a variable 
    short number = (short) (command_buffer[1]) - 48;
    BOOL found = FALSE;
-   // check for this number
-    clear_command_buffer();   
+   
+   clear_command_buffer();   
+   
+   // checking for this number in the existing history 
    for(int i = 0; i < HISTORY_BUFFER_SIZE; i++)
    {
-       if(command_ptr[i]-> num == number){
-
-        // print command
-        for(int j =0; j< BUFFER_LENGTH ;j++ )
-        {
-            wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
-            command_buffer[j] = command_ptr[i]->command[j];
-        }
-        wm_print(window_id_1, "\n");    
-       found = TRUE;
-       run_command();
+       if(command_ptr[i]-> num == number)
+       {
+            // print the command if found by looping through the elements of the command
+            for(int j =0; j< BUFFER_LENGTH ;j++ )
+            {
+                wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
+                command_buffer[j] = command_ptr[i]->command[j]; // now store the found command into the command_buffer so that we can execute it later
+            }
+            wm_print(window_id_1, "\n");    
+            
+            found = TRUE; // setting the found variable
+            run_command(); //once the command is found and printing it is done run that command
 
        }
 
 
    }
-
-   if(!found){
+    // print a message it not found
+    if(!found)
+    {
        wm_print(window_id_1, "Command Not Found\n");
-   }
+    }
    }
 
 /*----------------------------------------------------------------*/
@@ -241,10 +255,9 @@ void number(){
 
 /*----------------------------------------------------------------*/
 
-
-
 void clear_command_buffer(){ // function to clear buffer
-	int i;
+	// loopint throught the buffer and clearing it
+    int i;
 	for ( i= 0; i < BUFFER_LENGTH; ++i)
 	{
 		command_buffer[i] = '\0';
@@ -252,10 +265,10 @@ void clear_command_buffer(){ // function to clear buffer
 
 }
 
-
+/*----------------------------------------------------------------*/
 
  BOOL string_compare(char* cmd1, char* cmd2){// this function compares the buffer and the command
-
+    // returns 1 if the initial charecters of the input string are equal to the command
  	while (*cmd1 == *cmd2 && *cmd2) {
          cmd1++;
          cmd2++;
@@ -265,10 +278,10 @@ void clear_command_buffer(){ // function to clear buffer
  }
 
 
-
-
-
-void run_command(){
+/*----------------------------------------------------------------*/
+// this function compares the command buffer with the command and then calls the appropriate function
+void run_command() 
+{
 	char* cmd = &command_buffer[0];
 	
 	if(string_compare(cmd,"help"))
@@ -291,11 +304,7 @@ void run_command(){
     {
 		echo();
 	}
-    else if(string_compare(cmd,"echo"))
-    {
-		wm_print(window_id_1,"Please enter something after echo\n");
-	}
-   
+    
     else if(string_compare(cmd,"ps"))
     {
 		printAllProcesses();
@@ -316,12 +325,9 @@ void run_command(){
     
 }
 
+/*----------------------------------------------------------------*/
 
-
-
-
-
-
+// this function handles the execution of multiple commands in a single line seperated by ; 
 void check_for_multiple_commands()
 {
     // this function checks if the given command has multiple commands seperated by 
@@ -346,17 +352,19 @@ void check_for_multiple_commands()
         for(int i=0; i< BUFFER_LENGTH ;i++)
         {
             command_buffer[i] = command_buffer[i+index+1];
-            if(command_buffer[i] == '\0'){
-                break;
-            }
+            //  if(command_buffer[i] == '\0')
+            //  {
+            //      break;
+            //  }
         }
     
     
     
-    // remove white spaces before the next command
-    {
+            // remove white spaces before the next command
+    
         // detect whitespaces
-        for(int i = 0; i<BUFFER_LENGTH ; i++){
+        for(int i = 0; i<BUFFER_LENGTH ; i++)
+        {
             index = i;
             if(command_buffer[i]!= (char)' '){
                 break;
@@ -368,58 +376,54 @@ void check_for_multiple_commands()
             command_buffer[i] = command_buffer[i+index];
         
         
-        if (command_buffer[i+index] == (char)'\0')
-        {
-            break;
-        }
+            //  if (command_buffer[i+index] == '\0')
+            //  {
+            //      break;
+            //  }
 
         }
-    }
+    
 
     
-    run_command();
-    check_for_multiple_commands(); // check if there is another command
+        run_command(); // run the command
+        check_for_multiple_commands(); // check if there is another command
     }
 }
 
-
-
-
-
-
-
-
-
-
-
+/*----------------------------------------------------------------*/
 
 // this function is called from the main and it creates a shell process
 void start_shell()
 {
+    int i;
     create_process(shell_process,3,0,"shell");
  	resign();
 }    
+
+/*----------------------------------------------------------------*/
 
 // the shell process
 void shell_process(PROCESS self, PARAM param)
 {
     char ch;
-    window_id_1 = wm_create(10,3,50,17);
     
-    wm_print(window_id_1, "TOS Shell\n");
+    int window_id_1 = wm_create(10,3,50,17); //creating a new window
+    
+    wm_print(window_id_1, "TOS Shell\n"); // print some basic message
     wm_print(window_id_1, "------------------------------------------- \n");
 
     
-    while(1)
+    while(1) // constantly get the keyboard strokes and based on what they are perform different functions
     {
-        wm_print(window_id_1,"#");
+        wm_print(window_id_1,"$"); 
         while(1)
         {
-            ch = keyb_get_keystroke(window_id_1, TRUE);
+            ch = keyb_get_keystroke(window_id_1, TRUE); // getting the key stroke
             switch(ch)
             {
-                case '\b':
-                {
+                case '\b': 
+                {// backspace
+                    
                     if (i == 0)
                         continue;
                     i--;
@@ -427,26 +431,26 @@ void shell_process(PROCESS self, PARAM param)
                     break;
                 }
 
-                case 13:
+                case 13: // if return 
                 {
 					command_buffer[i]='\0';
-					wm_print(window_id_1, "\n");
+					wm_print(window_id_1, "\n"); // print it
 					
-				    store_command();
-                    run_command();
-                    check_for_multiple_commands();
+				    store_command(); // store the command to history
+                    run_command(); // run the command
+                    check_for_multiple_commands(); // check if there are multiple commands
                     i=0;
-					clear_command_buffer();
+					clear_command_buffer(); // finally clear the buffer
 
-					wm_print(window_id_1,"#");
+					wm_print(window_id_1,"$");
 					break;
                 }
                 
                 default:
 				{
-                	command_buffer[i] = ch;
+                	command_buffer[i] = ch; // store the charecter in the command buffer
 					
-					// buffer length check
+					// check the buffer length limit
 					if(i<= BUFFER_LENGTH -1)
                     {
 						i++;
@@ -459,9 +463,5 @@ void shell_process(PROCESS self, PARAM param)
             }
         }
      }  
-
-
-
-
 
 }
