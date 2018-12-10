@@ -1,14 +1,30 @@
+// Name: Rohan Sagar K.S.
+// Student id: 917929160.
+
+
+
+
+
 #include <kernel.h>
 # define BUFFER_LENGTH 50   // max length of buffer
 #define HISTORY_BUFFER_SIZE 10 // number of commands stored in history
 
+
+
+/*
+this code works well for 2 shells 
+
+There are global variables which i didnt realize were a problem until i started debugging the 
+entire system.
+
+It is too late for me to change this now so i am submitting this.
+Hope you consider me realizing this.
+*/
 char command_buffer[BUFFER_LENGTH]; // this is for the command buffer 
 void shell_process(PROCESS self, PARAM param); // declaration of shell_process function
 // type defining structure and pointer to structure
 typedef struct _command_hist HISTORY;
 typedef HISTORY* HISTORY_PTR;
-    int window_id_1;
-    int i;
 
 // defining data structure for commands in history
 struct _command_hist {
@@ -26,7 +42,7 @@ BOOL overflow = FALSE; // indecates teh overflow of the command history
 /*----------------------------------------------------------------*/
 
 // this command is used to store the command_buffer into the command variable of the respective HISTORY structure
-void store_command()
+void store_command(int window_id_1)
 {
     // check if the buffer has overflown atleast once
     if(overflow)
@@ -55,7 +71,7 @@ void store_command()
     {
         current_buffer_pointer = 0;
         overflow = TRUE;
-        store_command();
+        store_command(window_id_1);
     }    
     
 }
@@ -63,7 +79,7 @@ void store_command()
 /*----------------------------------------------------------------*/
 
 // this command is used to print the history
-void history()
+void history(int window_id_1)
 {
     int i;
     if(!overflow) // check if the buffer was overflown
@@ -112,7 +128,7 @@ void history()
 
 /*----------------------------------------------------------------*/
 
-void Help(){ // Help Comamnd
+void Help(int window_id_1){ // Help Comamnd
  	wm_print(window_id_1,"TOS 2018 Help\n");
  	wm_print(window_id_1,"These shell commands are defined internally:\n");
  	wm_print(window_id_1,"help                  - for displaying help information\n");
@@ -128,7 +144,7 @@ void Help(){ // Help Comamnd
 
 /*----------------------------------------------------------------*/
 
-void clearShellWindow(){// cls command clears the window
+void clearShellWindow(int window_id_1){// cls command clears the window
     wm_clear(window_id_1);
 }
 
@@ -142,13 +158,13 @@ void new_shell(){ // shell command- opens a new shell
 
 /*----------------------------------------------------------------*/
 
-void pong(){ // pong command: starts pong game
+void pong(int window_id_1){ // pong command: starts pong game
     start_pong();
 }
 
 /*----------------------------------------------------------------*/
 
-void echo(){ // echo command: prints whatever is after the echo 
+void echo(int window_id_1){ // echo command: prints whatever is after the echo 
 	char* echo_temp = command_buffer+5;
 	wm_print(window_id_1, echo_temp);
 	wm_print(window_id_1,"\n");
@@ -204,19 +220,19 @@ void wm_print_processes(int window_id){ // ps command
 
 /*----------------------------------------------------------------*/
 // function for printing all the processes
-void printAllProcesses(){
+void printAllProcesses(int window_id_1){
 	wm_print_processes(window_id_1);
 }
 
 /*----------------------------------------------------------------*/
 // this function tis used to retreive and execute a command from the command history
-void number()
+void number(int window_id_1)
 {
    //storing the number that is inputted into a variable 
    short number = (short) (command_buffer[1]) - 48;
    BOOL found = FALSE;
    
-   clear_command_buffer();   
+   clear_command_buffer(window_id_1);   
    
    // checking for this number in the existing history 
    for(int i = 0; i < HISTORY_BUFFER_SIZE; i++)
@@ -232,7 +248,7 @@ void number()
             wm_print(window_id_1, "\n");    
             
             found = TRUE; // setting the found variable
-            run_command(); //once the command is found and printing it is done run that command
+            run_command( window_id_1); //once the command is found and printing it is done run that command
 
        }
 
@@ -247,7 +263,7 @@ void number()
 
 /*----------------------------------------------------------------*/
 
- void About()
+ void About(int window_id_1)
  // About command
  {
  	wm_print(window_id_1,"Implemented by Rohan Sagar\n");
@@ -255,7 +271,7 @@ void number()
 
 /*----------------------------------------------------------------*/
 
-void clear_command_buffer(){ // function to clear buffer
+void clear_command_buffer(int window_id_1){ // function to clear buffer
 	// loopint throught the buffer and clearing it
     int i;
 	for ( i= 0; i < BUFFER_LENGTH; ++i)
@@ -280,47 +296,47 @@ void clear_command_buffer(){ // function to clear buffer
 
 /*----------------------------------------------------------------*/
 // this function compares the command buffer with the command and then calls the appropriate function
-void run_command() 
+void run_command(int window_id_1) 
 {
 	char* cmd = &command_buffer[0];
 	
 	if(string_compare(cmd,"help"))
     {
-		Help();
+		Help( window_id_1);
 	}
     else if(string_compare(cmd,"cls"))
     {
-		clearShellWindow();
+		clearShellWindow( window_id_1);
 	}
      else if(string_compare(cmd,"shell"))
     {
-		new_shell();
+		new_shell( window_id_1);
 	}
       else if(string_compare(cmd,"pong"))
     {
-		pong();
+		pong( window_id_1);
 	}
     else if(string_compare(cmd,"echo "))
     {
-		echo();
+		echo(window_id_1);
 	}
     
     else if(string_compare(cmd,"ps"))
     {
-		printAllProcesses();
+		printAllProcesses( window_id_1);
 	}
     else if(string_compare(cmd,"history"))
     {
-		history();
+		history( window_id_1);
 	}
     else if(string_compare(cmd,"!"))
     {
-		number();
+		number( window_id_1);
 	}
     
     else if(string_compare(cmd,"about"))
     {
-		About();
+		About( window_id_1);
 	}
     
 }
@@ -328,7 +344,7 @@ void run_command()
 /*----------------------------------------------------------------*/
 
 // this function handles the execution of multiple commands in a single line seperated by ; 
-void check_for_multiple_commands()
+void check_for_multiple_commands(int window_id_1)
 {
     // this function checks if the given command has multiple commands seperated by 
     BOOL found = FALSE;
@@ -385,8 +401,8 @@ void check_for_multiple_commands()
     
 
     
-        run_command(); // run the command
-        check_for_multiple_commands(); // check if there is another command
+        run_command(window_id_1); // run the command
+        check_for_multiple_commands(window_id_1); // check if there is another command
     }
 }
 
@@ -408,7 +424,8 @@ void shell_process(PROCESS self, PARAM param)
     char ch;
     
     int window_id_1 = wm_create(10,3,50,17); //creating a new window
-    
+    int i;
+
     wm_print(window_id_1, "TOS Shell\n"); // print some basic message
     wm_print(window_id_1, "------------------------------------------- \n");
 
@@ -436,11 +453,11 @@ void shell_process(PROCESS self, PARAM param)
 					command_buffer[i]='\0';
 					wm_print(window_id_1, "\n"); // print it
 					
-				    store_command(); // store the command to history
-                    run_command(); // run the command
-                    check_for_multiple_commands(); // check if there are multiple commands
+				    store_command(window_id_1); // store the command to history
+                    run_command(window_id_1); // run the command
+                    check_for_multiple_commands(window_id_1); // check if there are multiple commands
                     i=0;
-					clear_command_buffer(); // finally clear the buffer
+					clear_command_buffer(window_id_1); // finally clear the buffer
 
 					wm_print(window_id_1,"$");
 					break;
