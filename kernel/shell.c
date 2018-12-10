@@ -34,7 +34,7 @@ void store_command(){
     command_ptr[current_buffer_pointer] = (HISTORY_PTR) malloc(sizeof(HISTORY));
     // store the number
     command_ptr[current_buffer_pointer] -> num = global_command_count++;
-    // store teh command
+    // store the command
     for(int i = 0; (command_buffer[i]) != '\0' ; i++)
     {
         command_ptr[current_buffer_pointer] -> command[i] = command_buffer[i];
@@ -92,6 +92,7 @@ void history()
 
     
     
+
 }
 
 
@@ -197,8 +198,33 @@ void printAllProcesses(){
 /*----------------------------------------------------------------*/
 
 void number(){
-    wm_print(window_id_1,"You didnt implement me yet! You moron\n");
-}
+   short number = (short) (command_buffer[1]) - 48;
+   BOOL found = FALSE;
+   // check for this number
+    clear_command_buffer();   
+   for(int i = 0; i < HISTORY_BUFFER_SIZE; i++)
+   {
+       if(command_ptr[i]-> num == number){
+
+        // print command
+        for(int j =0; j< BUFFER_LENGTH ;j++ )
+        {
+            wm_print(window_id_1, "%c", (command_ptr[i]->command[j]) );
+            command_buffer[j] = command_ptr[i]->command[j];
+        }
+        wm_print(window_id_1, "\n");    
+       found = TRUE;
+       run_command();
+
+       }
+
+
+   }
+
+   if(!found){
+       wm_print(window_id_1, "Command Not Found\n");
+   }
+   }
 
 /*----------------------------------------------------------------*/
 
@@ -232,6 +258,10 @@ void clear_command_buffer(){ // function to clear buffer
      return (*cmd1-*cmd2 == *cmd1);
    
  }
+
+
+
+
 
 
 
@@ -334,6 +364,7 @@ void shell_process(PROCESS self, PARAM param)
 					
 				    store_command();
                     run_command();
+                    check_for_multiple_commands();
                     i=0;
 					clear_command_buffer();
 
