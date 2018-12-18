@@ -262,6 +262,14 @@ void number(int window_id_1)
 
 /*----------------------------------------------------------------*/
 
+void train(int window_id_1){
+// the train command
+   init_train();
+   }
+
+
+/*----------------------------------------------------------------*/
+
 void clear_command_buffer(int window_id_1){ // function to clear buffer
 	// loopint throught the buffer and clearing it
     int i;
@@ -329,6 +337,12 @@ void run_command(int window_id_1)
     {
 		About( window_id_1);
 	}
+
+    else if(string_compare(cmd,"train"))
+    {
+		train( window_id_1);
+	}
+
     
 }
 
