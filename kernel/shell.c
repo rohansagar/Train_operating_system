@@ -11,15 +11,6 @@
 
 
 
-/*
-this code works well for 2 shells 
-
-There are global variables which i didnt realize were a problem until i started debugging the 
-entire system.
-
-It is too late for me to change this now so i am submitting this.
-Hope you consider me realizing this.
-*/
 char command_buffer[BUFFER_LENGTH]; // this is for the command buffer 
 void shell_process(PROCESS self, PARAM param); // declaration of shell_process function
 // type defining structure and pointer to structure
@@ -112,7 +103,7 @@ void history(int window_id_1)
             // printing the command inside the HISTORY structure
             for(int j =0; j< BUFFER_LENGTH ;j++ )
             {
-                (window_id_1, "%c", (command_ptr[k]->command[j]) );
+                wm_print(window_id_1, "%c", (command_ptr[k]->command[j]) );
             }
             wm_print(window_id_1, "\n");    
             k++;
