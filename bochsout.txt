@@ -18,7 +18,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7f4b3c28c010. after alignment, vector=0x7f4b3c28d000
+00000000000i[MEM0  ] allocated memory at 0x7fe14ca02010. after alignment, vector=0x7fe14ca03000
 00000000000i[MEM0  ] 8.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=64
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -29,7 +29,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Tue Dec 18 02:00:49 2018 (time0=1545116449)
+00000000000i[CMOS  ] Setting initial clock to: Thu Dec 20 16:09:14 2018 (time0=1545340154)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -68,9 +68,9 @@
 00000000000i[PLUGIN] init_dev of 'parallel' plugin device by virtual method
 00000000000i[PAR   ] parallel ports disabled
 00000000000i[PLUGIN] init_dev of 'serial' plugin device by virtual method
-00000000000e[SER   ] com1: connect() failed (host:localhost, port:8888)
-00000000000i[SER   ] com1 at 0x03f8 irq 4 (mode: null)
-00000000000i[SER   ] com2 - inet client - socket_id: 7, ip:localhost, port:8899
+00000000000i[SER   ] com1 - inet client - socket_id: 7, ip:localhost, port:8888
+00000000000i[SER   ] com1 at 0x03f8 irq 4 (mode: socket-client)
+00000000000i[SER   ] com2 - inet client - socket_id: 8, ip:localhost, port:8899
 00000000000i[SER   ] com2 at 0x02f8 irq 3 (mode: socket-client)
 00000000000i[PLUGIN] register state of 'pci' plugin device by virtual method
 00000000000i[PLUGIN] register state of 'pci2isa' plugin device by virtual method
@@ -123,180 +123,96 @@
 00000321272i[BIOS  ] Shutdown flag 0
 00000321850i[BIOS  ] ram_size=0x00800000
 00000322250i[BIOS  ] ram_end=8MB
-00000334296i[BIOS  ] Found 1 cpu(s)
-00000347950i[BIOS  ] bios_table_addr: 0x000f9db8 end=0x000fcc00
-00000347990d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00000347996d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00000348021d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00000348027d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00000348067d[PCI   ] read  PCI register 0x59 value 0x00 (len=1)
-00000348076d[PCI   ] write PCI register 0x59 value 0x00 (len=1)
-00000675771d[PCI   ] write PCI register 0x59 value 0x30 (len=1)
-00000675771i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001003701i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001003720i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001003739i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001003758i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001003768i[P2ISA ] write: ELCR2 = 0x0a
-00001004538i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
-00001016260d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001016266d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001016286d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001016293d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001016308d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
-00001016317d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001016324d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001016333d[PCI   ] read  PCI register 0x0E value 0x00 (len=1)
-00001018166i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001018214d[PCI   ] read  PCI register 0x10 value 0x00000000 (len=4)
-00001018242d[PCI   ] read  PCI register 0x14 value 0x00000000 (len=4)
-00001018270d[PCI   ] read  PCI register 0x18 value 0x00000000 (len=4)
-00001018298d[PCI   ] read  PCI register 0x1C value 0x00000000 (len=4)
-00001018326d[PCI   ] read  PCI register 0x20 value 0x00000000 (len=4)
-00001018354d[PCI   ] read  PCI register 0x24 value 0x00000000 (len=4)
-00001018374d[PCI   ] write PCI register 0x30 value 0xFFFFFFFE (len=4)
-00001018380d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
-00001018393d[PCI   ] read  PCI register 0x3D value 0x00 (len=1)
-00001018603d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001018610d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001020483i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001020759d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001020766d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001022639i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001022874i[PIDE  ] BAR #4: i/o base address = 0xc000
-00001023490i[BIOS  ] region 4: 0x0000c000
-00001023679d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001023686d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001025559i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001025803i[ACPI  ] new IRQ line = 11
-00001025817i[ACPI  ] new IRQ line = 9
-00001025844i[ACPI  ] new PM base address: 0xb000
-00001025858i[ACPI  ] new SM base address: 0xb100
-00001025886d[PCI   ] write PCI register 0x72 value 0x4A (len=1)
-00001025886i[PCI   ] setting SMRAM control register to 0x4a
-00001189979i[CPU0  ] Enter to System Management Mode
-00001189990i[CPU0  ] RSM: Resuming from System Management Mode
-00001354011d[PCI   ] write PCI register 0x72 value 0x0A (len=1)
-00001354011i[PCI   ] setting SMRAM control register to 0x0a
-00001365567d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001365573d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001365592d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
-00001365600d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
-00001380685i[BIOS  ] MP table addr=0x000f9e90 MPC table addr=0x000f9dc0 size=0xc8
-00001382507i[BIOS  ] SMBIOS table addr=0x000f9ea0
-00001384680i[BIOS  ] ACPI tables: RSDP addr=0x000f9fc0 ACPI DATA addr=0x007f0000 size=0xff8
-00001387905i[BIOS  ] Firmware waking vector 0x7f00cc
-00001390376d[PCI   ] read  PCI register 0x59 value 0x30 (len=1)
-00001390385d[PCI   ] write PCI register 0x59 value 0x10 (len=1)
-00001390385i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001391108i[BIOS  ] bios_table_cur_addr: 0x000f9fe4
-00001520261i[VBIOS ] VGABios $Id: vgabios.c,v 1.77 2018/01/26 10:59:46 vruppert Exp $
-00001523268i[VBIOS ] VBE Bios $Id: vbe.c,v 1.66 2018/01/26 10:59:46 vruppert Exp $
-00022002936i[BIOS  ] Booting from 0000:7c00
-00094188000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00094188000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00096028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00096028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00096300000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00096300000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00096624000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00096624000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00096916000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00096916000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00097500000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00097500000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00097568000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00097568000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00098264000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00098264000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00098308000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00098308000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00100360000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00100360000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00100384000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00100384000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00100436000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00100436000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00100508000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00100508000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00101204000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00101204000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00101320000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00101320000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00101380000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00101380000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00101552000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00101552000i[KBD   ] internal keyboard buffer full, ignoring scancode.(c8)
-00101948000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00101948000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00102136000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00102136000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00102248000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00102248000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00102688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00102688000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00103028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00103028000i[KBD   ] internal keyboard buffer full, ignoring scancode.(c8)
-00103516000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00103516000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00104372000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00104372000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00104640000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00104640000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00104836000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00104836000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00105196000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00105196000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00105280000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00105280000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00105472000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00105472000i[KBD   ] internal keyboard buffer full, ignoring scancode.(c8)
-00105840000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00105840000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00105960000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00105960000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00106048000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00106048000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00106420000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00106420000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4b)
-00106456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00106456000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00106616000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00106616000i[KBD   ] internal keyboard buffer full, ignoring scancode.(c8)
-00108008000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00108008000i[KBD   ] internal keyboard buffer full, ignoring scancode.(48)
-00108188000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00108188000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cb)
-00108584000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00108584000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00109344000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00109344000i[KBD   ] internal keyboard buffer full, ignoring scancode.(c8)
-00109452000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00109452000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00109604000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00109604000i[KBD   ] internal keyboard buffer full, ignoring scancode.(4d)
-00109656000i[KBD   ] internal keyboard buffer full, ignoring scancode.(e0)
-00109656000i[KBD   ] internal keyboard buffer full, ignoring scancode.(cd)
-00122008000p[SDL   ] >>PANIC<< User requested shutdown.
-00122008000i[CPU0  ] CPU is in protected mode (active)
-00122008000i[CPU0  ] CS.mode = 32 bit
-00122008000i[CPU0  ] SS.mode = 32 bit
-00122008000i[CPU0  ] EFER   = 0x00000000
-00122008000i[CPU0  ] | EAX=000b8f00  EBX=00000000  ECX=00000f20  EDX=00000f20
-00122008000i[CPU0  ] | ESP=00077fbc  EBP=00000000  ESI=00007f3c  EDI=00077fd8
-00122008000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af pf cf
-00122008000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-00122008000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00122008000i[CPU0  ] | EIP=00004ea0 (00004ea0)
-00122008000i[CPU0  ] | CR0=0x60000011 CR2=0x00000000
-00122008000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-00122008000i[CPU0  ] 0x00004ea0>> jmp .-2 (0x00004ea0) : EBFE
-00122008000d[PCI   ] Exit
-00122008000i[CMOS  ] Last time is 1545116479 (Tue Dec 18 02:01:19 2018)
-00122008000i[      ] restoring default signal behavior
-00122008000i[SIM   ] quit_sim called with exit code 1
+00000829496i[BIOS  ] Found 1 cpu(s)
+00000843150i[BIOS  ] bios_table_addr: 0x000f9db8 end=0x000fcc00
+00000843190d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00000843196d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00000843221d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00000843227d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00000843267d[PCI   ] read  PCI register 0x59 value 0x00 (len=1)
+00000843276d[PCI   ] write PCI register 0x59 value 0x00 (len=1)
+00001170971d[PCI   ] write PCI register 0x59 value 0x30 (len=1)
+00001170971i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001498901i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001498920i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001498939i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001498958i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001498968i[P2ISA ] write: ELCR2 = 0x0a
+00001499738i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001511460d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001511466d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001511486d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001511493d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001511508d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
+00001511517d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001511524d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001511533d[PCI   ] read  PCI register 0x0E value 0x00 (len=1)
+00001513366i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001513414d[PCI   ] read  PCI register 0x10 value 0x00000000 (len=4)
+00001513442d[PCI   ] read  PCI register 0x14 value 0x00000000 (len=4)
+00001513470d[PCI   ] read  PCI register 0x18 value 0x00000000 (len=4)
+00001513498d[PCI   ] read  PCI register 0x1C value 0x00000000 (len=4)
+00001513526d[PCI   ] read  PCI register 0x20 value 0x00000000 (len=4)
+00001513554d[PCI   ] read  PCI register 0x24 value 0x00000000 (len=4)
+00001513574d[PCI   ] write PCI register 0x30 value 0xFFFFFFFE (len=4)
+00001513580d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
+00001513593d[PCI   ] read  PCI register 0x3D value 0x00 (len=1)
+00001513803d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001513810d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001515683i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001515959d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001515966d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001517839i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001518074i[PIDE  ] BAR #4: i/o base address = 0xc000
+00001518690i[BIOS  ] region 4: 0x0000c000
+00001518879d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001518886d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001520759i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001521003i[ACPI  ] new IRQ line = 11
+00001521017i[ACPI  ] new IRQ line = 9
+00001521044i[ACPI  ] new PM base address: 0xb000
+00001521058i[ACPI  ] new SM base address: 0xb100
+00001521086d[PCI   ] write PCI register 0x72 value 0x4A (len=1)
+00001521086i[PCI   ] setting SMRAM control register to 0x4a
+00001685179i[CPU0  ] Enter to System Management Mode
+00001685190i[CPU0  ] RSM: Resuming from System Management Mode
+00001849211d[PCI   ] write PCI register 0x72 value 0x0A (len=1)
+00001849211i[PCI   ] setting SMRAM control register to 0x0a
+00001860767d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001860773d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001860792d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
+00001860800d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
+00001875885i[BIOS  ] MP table addr=0x000f9e90 MPC table addr=0x000f9dc0 size=0xc8
+00001877707i[BIOS  ] SMBIOS table addr=0x000f9ea0
+00001879880i[BIOS  ] ACPI tables: RSDP addr=0x000f9fc0 ACPI DATA addr=0x007f0000 size=0xff8
+00001883105i[BIOS  ] Firmware waking vector 0x7f00cc
+00001885576d[PCI   ] read  PCI register 0x59 value 0x30 (len=1)
+00001885585d[PCI   ] write PCI register 0x59 value 0x10 (len=1)
+00001885585i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001886308i[BIOS  ] bios_table_cur_addr: 0x000f9fe4
+00002015461i[VBIOS ] VGABios $Id: vgabios.c,v 1.77 2018/01/26 10:59:46 vruppert Exp $
+00002018468i[VBIOS ] VBE Bios $Id: vbe.c,v 1.66 2018/01/26 10:59:46 vruppert Exp $
+00025475255i[BIOS  ] Booting from 0000:7c00
+00846152000p[SDL   ] >>PANIC<< User requested shutdown.
+00846152000i[CPU0  ] CPU is in protected mode (active)
+00846152000i[CPU0  ] CS.mode = 32 bit
+00846152000i[CPU0  ] SS.mode = 32 bit
+00846152000i[CPU0  ] EFER   = 0x00000000
+00846152000i[CPU0  ] | EAX=00005454  EBX=00000001  ECX=00000007  EDX=0000c6d0
+00846152000i[CPU0  ] | ESP=00077fec  EBP=00000000  ESI=00000002  EDI=00000000
+00846152000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
+00846152000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+00846152000i[CPU0  ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00846152000i[CPU0  ] | EIP=000071bf (000071bf)
+00846152000i[CPU0  ] | CR0=0x60000011 CR2=0x00000000
+00846152000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+00846152000i[CPU0  ] 0x000071bf>> jmp .-2 (0x000071bf) : EBFE
+00846152000d[PCI   ] Exit
+00846152000i[CMOS  ] Last time is 1545340365 (Thu Dec 20 16:12:45 2018)
+00846152000i[      ] restoring default signal behavior
+00846152000i[SIM   ] quit_sim called with exit code 1
