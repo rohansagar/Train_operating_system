@@ -32,8 +32,18 @@ void train_process(PROCESS self, PARAM param)
     //wm_print(window_id_train,"this is the train");
     //initializing the switches
     init_switches(window_id_train);
+    wm_print(window_id_train, "Initialized Switches\n");
+
     // checking if zamboni is present
+    wm_print(window_id_train, "Checking for Zamboni \n");
     int zam = check_zamboni();
+   
+    if(zam == 1)
+        wm_print(window_id_train, "Found Zamboni\n");
+    
+    
+    // this part is for checking zamboni direction
+    /*
     int zam_dir;
     
     // if zamboni is present check for zamboni direction
@@ -61,8 +71,9 @@ void train_process(PROCESS self, PARAM param)
 
         wm_print(window_id_train, "No zamboni \n");
     }
+    */
+    wm_print(window_id_train, "Determining Configuration\n");
     int config = determine_config();
-
     wm_print(window_id_train, "configuration %d\n", config);
 
     if(zam == 0 && config == 1 )
@@ -89,6 +100,7 @@ void train_process(PROCESS self, PARAM param)
     else if(zam == 1 && config ==4)
         config4_zam();
 
+    wm_print(window_id_train,"Finished the task");
    while(1)
    {    
    }
@@ -119,7 +131,6 @@ void init_switches(int window_id_train)
    	msg.len_input_buffer = len;
    	msg.input_buffer = rec;
     send(com_port,&msg); 
-    wm_print(window_id_train, "Initialized Switches\n");
  
 }
 
@@ -201,12 +212,8 @@ int check_for_zamboni_direction(void)
 
     else if(poll_6==1)
         return 1;
-}
+}    
 
-/*
-@info: This function determines the configuration of the train simulation
-@return: the config as integer
-*/
 int determine_config()
 {
     // poll all the relavent tracks and store the results in variables
@@ -374,7 +381,8 @@ int poll_track_2(char a, char b)
 
 
 
-void clear_serial_buffer(){
+void clear_serial_buffer()
+{
     char clear_command[] = "R\015\0" ;
     int len;
     char* rec;
@@ -391,74 +399,75 @@ void clear_serial_buffer(){
 
 
 
-void config1(){
-// set switches 5 and 6  to red
-set_switch('5','R');
-set_switch('6','R');
-sleep(2);
-// start train 
-start_train('4');
-sleep(2);
-// wait until it reaches 7
-while(poll_track('7')==0);
-//stop the train
-stop_train();
-// set 6 and 7 to green
-set_switch('6','G');
-set_switch('7','G');
+void config1()
+{
+    // set switches 5 and 6  to red
+    set_switch('5','R');
+    set_switch('6','R');
+    sleep(2);
+    // start train 
+    start_train('4');
+    sleep(2);
+    // wait until it reaches 7
+    while(poll_track('7')==0);
+    //stop the train
+    stop_train();
+    // set 6 and 7 to green
+    set_switch('6','G');
+    set_switch('7','G');
 
-// start the train in reverse direction
-change_direction();
-start_train('4');
-//wait until it reaches 12
-while(poll_track_2('1','2')==0);
+    // start the train in reverse direction
+    change_direction();
+    start_train('4');
+    //wait until it reaches 12
+    while(poll_track_2('1','2')==0);
 
-//stop the train
-stop_train();
-// switch 7 to red and 8 to red
-set_switch('7','R');
-set_switch('8','R');
-set_switch('5','G');
+    //stop the train
+    stop_train();
+    // switch 7 to red and 8 to red
+    set_switch('7','R');
+    set_switch('8','R');
+    set_switch('5','G');
 
-// start the train in reverse direction
-change_direction();
-start_train('4');
-// wait until you hit 13
-while(poll_track_2('1','3')==0);
-stop_train();
+    // start the train in reverse direction
+    change_direction();
+    start_train('4');
+    // wait until you hit 13
+    while(poll_track_2('1','3')==0);
+    stop_train();
 
-//change the direction of the train
-change_direction();
-start_train('4');
-// wait until you reach 12
-while(poll_track_2('1','2')==0);
+    //change the direction of the train
+    change_direction();
+    start_train('4');
+    // wait until you reach 12
+    while(poll_track_2('1','2')==0);
 
-//change 7 and 6 to green
-set_switch('6','G');
-set_switch('7','G');
-set_switch('5','R');
-//stop the train
-stop_train();
-//reverse the direction
-change_direction();
-// start the train
-start_train('4');
-//wait until 7
-while(poll_track('7')==0);
-// stop the train
-stop_train();
-// change direction
-change_direction();
-// start the train
-start_train('4');
-//change 5 and 6 to red
-set_switch('5','R');
-set_switch('6','R');
-//go until 8 
-while(poll_track('8')==0);
+    //change 7 and 6 to green
+    set_switch('6','G');
+    set_switch('7','G');
+    set_switch('5','R');
+    //stop the train
+    stop_train();
+    //reverse the direction
+    change_direction();
+    // start the train
+    start_train('4');
+    //wait until 7
+    while(poll_track('7')==0);
+    // stop the train
+    stop_train();
+    // change direction
+    change_direction();
+    // start the train
+    start_train('4');
+    //change 5 and 6 to red
+    set_switch('5','R');
+    set_switch('6','R');
+    //go until 8 
+    while(poll_track('8')==0);
 
-//stop
-stop_train();
+    //stop
+    stop_train();
 }
 
 void config2()
@@ -580,11 +589,158 @@ void config4(){
     // stop the train
     stop_train();
 }
+
 void config1_zam(){
-    
+    // in this config zamboni is counter clock wise
+    // wait until zamboni reaches 7
+    while(poll_track('6') == 0);
+    // set 6 to red
+    set_switch('6','R');
+    // set 5 to red
+    set_switch('5','R');
+    // start train
+    start_train('5');
+    // wait until it reaches 7
+    while(poll_track('7') == 0);
+    // stop the train
+    stop_train();
+    // change the direction of the train
+    change_direction();
+    // set 6 to green
+    set_switch('6','G');
+    set_switch('7','G');
+    // start the train
+    start_train('4');
+    // wait until it reaches 12
+    while(poll_track_2('1', '2') == 0);
+    // stop the train
+    stop_train();
+    // change the direction
+    change_direction();
+    // reset 5 to green
+    set_switch('5','G');
+    //change 7 to red
+    set_switch('7','R');
+    // wait intil zamboni reaches 10
+    while(poll_track_2('1','0') == 0);
+    //set 8 to red
+    set_switch('8','R');
+    // start the train
+    start_train('5');
+    // wait until it reaches 13
+    while(poll_track_2('1','3') == 0);
+    //stop the train
+    stop_train();
+    // reverse the train
+    change_direction();
+    //start the train
+    start_train('4');
+    // wait until it reaches 12
+    while(poll_track_2('1','2') == 0);
+    // reset 8 to green
+    set_switch('8','G');
+    //stop the train
+    stop_train();
+    //change the direction 
+    change_direction();
+    // set 7 to green
+    set_switch('7','G');
+    // wait until zamboni reaches 7
+    while(poll_track('6') == 0);
+    // set 5 to red
+    set_switch('5','R');
+    //start the train
+    start_train('5');
+    //wait until it reaches 7
+    while(poll_track('7') == 0);
+    //stop the train
+    stop_train();
+    // change the direction
+    change_direction();
+    //change 6 to red
+    set_switch('6','R');
+    // start the train
+    start_train('5');
+    //wait until it reaches 8
+    while(poll_track('8') == 0);
+    // stop the train
+    stop_train();
+    // set 5 to green
+    set_switch('5','G');
+  
 }
 void config2_zam(){
+    // in this configuration zamboni is clockwise
+    //wait until zamboni reaches 3
+    while(poll_track('3') == 0);
+    // set 1 and 2 to red
+    set_switch('1','R');
+    set_switch('2','R');
+    // start train a little slow 3
+    start_train('4');
+    // wait until it gets to 15
+    while(poll_track_2('1','5') == 0 && poll_track_2('1','4') == 0);
+    // stop the train
+    stop_train();
+    // change the direction
+    change_direction();
+    // change 2 to green
+    set_switch('2','G');
     
+    // start the train in 4
+    start_train('5');
+    // wait until it reaches 1
+    while(poll_track('1') == 0);
+    // stop the train
+    stop_train();
+    //switch 1 to green
+    set_switch('1','G');
+    // 3 to green 
+    set_switch('3','G');
+    //wait until zamboni is in 6
+    while(poll_track('7') == 0);
+    // 4 to red
+    set_switch('4','R');
+    // start the train in 4
+    start_train('5');
+    // wait until it reaches 6
+    while(poll_track('6') == 0);
+    //stop the train
+    stop_train();
+    // change direction 
+    change_direction();
+    // start the train
+    start_train('5');
+    // wait until it reaches 1 or 2
+    while(poll_track('1') == 0 && poll_track('2') == 0);
+    // switch 4 to green
+    set_switch('4','G');
+    // stop the train
+    stop_train();
+    // wait until zamboni is in 3
+    while(poll_track('3') == 0);
+   
+    //switch 1 to red
+    set_switch('1','R');
+    // start the train in 4
+    start_train('5');
+    // wait until it reaches 15 or 14
+    while(poll_track_2('1','5') == 0 && poll_track_2('1','4') == 0);
+    // stop the train
+    stop_train();
+    // switch 2 to red
+    set_switch('2','R');
+    // reverse the direction
+    change_direction();
+    // start the train
+    start_train('4');
+    // wait until it reaches 12
+    while(poll_track_2('1','2') == 0 );
+    //stop the train
+    stop_train();
+    // set 1 to green
+    set_switch('1','G');
+
 }
 void config3_zam(){
     
