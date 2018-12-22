@@ -743,10 +743,178 @@ void config2_zam(){
 
 }
 void config3_zam(){
+    // in this configuration zamboni is clockwise
+    // reverse the direction of the train
+    change_direction();
+    //start the train in 3
+    start_train('4');
+    //wait until it gets to 1
+    while(poll_track('1') == 0);
+    //stop the train
+    stop_train();
+    // wait until zamboni is in 3
+    while(poll_track('3') == 0);
+    // set 2 to green
+    set_switch('2','G');
+    // set 1 to red
+    set_switch('1','R');
+    //start the train in 5
+    start_train('5');
+    // wait until it gets to 15 0r 14
+    while(poll_track_2('1','5') == 0 && poll_track_2('1','4') == 0);
+
+    //stop the train
+    stop_train();
+    //reverse the direction
+    change_direction();
+    //set 2 to red
+    set_switch('2','R');
+    //start in 5
+    start_train('5');
+    // wait until it reaches 12
+    while(poll_track_2('1','2') == 0);
+    //stop the train
+    stop_train();
+    //set 7 to red
+    set_switch('7','R');
+    //set 1 to green
+    set_switch('1','G');
+    // sleep
+    sleep(2);
+    // wait until zamboni is in 14
+    while(poll_track_2('1','4') == 0);
+    //set 8 to red
+    set_switch('8','R');
+    //start in 5
+    start_train('4');
+    // wait until the train reaches 13 or 14
+    while(poll_track_2('1','3') == 0  &&  poll_track_2('1','4') == 0);
+    // stop
+    stop_train();
+    // reverse the direction
+    change_direction();
+    //start in 3
+    start_train('3');
+    // wait until the train is in 11 
+    while(poll_track_2('1','1') == 0);
+    // switch 8 to green
+    set_switch('8','G');
+    //wait until the train is in 12
+    while(poll_track_2('1','2') == 0);
+    //stop the train
+    stop_train();
+    //wait until zamboni is in 3
+    while(poll_track('3') == 0);
+    //set 1 to red
+    set_switch('1','R');
+    //start the train in 4
+    start_train('4');
+    //wait until it is in 15 or 14
+    while(poll_track_2('1','4') == 0  &&  poll_track_2('1','5') == 0);
+    // stop
+    stop_train();
+    //switch 2 to green
+    set_switch('2','G');
+    //reverse
+    change_direction();
+    //start
+    start_train('5');
+    //wait until we the train gets back to 2
+    while(poll_track('1') == 0);
+    // set 1 to green
+    set_switch('1','G');
+    //wait until the train reaches 2
+    while(poll_track('2') == 0);
+    //stop the train
+    stop_train();
+    
     
 }
-void config4_zam(){
+void config4_zam()
+{
+    // zamboni is counter clockwise in this config
+    //set 3 to red
+    set_switch('3','R');
+    // wait until zamboni is in 4
+    while(poll_track('4') == 0);
+    // set 4 to red
+    set_switch('4','R');
+    //start train in 5
+    start_train('4');
+    // wait until it gets to 6
+    while(poll_track('6') == 0 );
+    // stop train
+    stop_train();
+    //set 3 to green
+    set_switch('3','G');
     
+    // reverse direction
+    change_direction();
+    //start in 5
+    start_train('4');
+    // wait until the train is in 2 
+    while(poll_track('2') == 0);
+    // set 4 to green
+    set_switch('4','G');
+    //wait until the train is in 1 
+    while(poll_track('1') == 0);
+    // stop train
+    stop_train();
+    // set 2 to green
+    set_switch('2','G');
+    // sleep
+    sleep(2);
+    // wait until zamboni is in 14 or 13
+    while(poll_track_2('1','4') == 0 && poll_track_2('1','3') == 0);
+    //switch 1 to red
+    set_switch('1','R');
+    //start in 4
+    start_train('5');
+        //wait until the train reaches 15 or 14
+        while(poll_track_2('1','5') == 0 && poll_track_2('1','4') == 0);
+        //set 2 to red
+        set_switch('2','R');
+        //stop
+        stop_train();
+        //change direction
+        change_direction();
+        //start in 5
+        start_train('5');
+        // set 7 to red
+        set_switch('7','R');
+        //wait until the train reaches 12
+    while(poll_track_2('1','1') == 0);
+    //stop
+    stop_train();
+    //set 1 to green
+    set_switch('1','G');
+    //change direction
+    change_direction();
+    // wait until zamboni reaches 14 or 13
+    while(poll_track_2('1','4') == 0 /*&& poll_track_2('1','3') == 0*/);
+    //set 1 to red
+    set_switch('1','R');
+    // start in 5
+    start_train('4');
+    // wait until the train reaches 15 or 14
+    while(poll_track_2('1','5') == 0 && poll_track_2('1','4') == 0);
+    //stop
+    stop_train();
+    //set 2 to green
+    set_switch('2','G');
+    //change direction
+    change_direction();
+    //start in 5
+    start_train('4');
+    //wait until train is in 1
+    while(poll_track('1') == 0);
+    //switch 1 to green
+    set_switch('1','G');
+    //wait until the train is in 2
+    while(poll_track('2') == 0);
+    // stop the train
+    stop_train();
+
 }
 
 
