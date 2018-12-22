@@ -12,6 +12,19 @@ int check_for_zamboni_direction(void);
 int determine_config(void);
 int poll_track(char);
 int poll_track_2(char, char);
+void config1(void);
+void config2(void);
+void config3(void);
+void config4(void);
+void config1_zam(void);
+void config2_zam(void);
+void config3_zam(void);
+void config4_zam(void);
+void start_train(char);
+void stop_train(void);
+void change_direction(void);
+void set_switch(char,char);
+
 
 void train_process(PROCESS self, PARAM param)
 {
@@ -52,11 +65,35 @@ void train_process(PROCESS self, PARAM param)
 
     wm_print(window_id_train, "configuration %d\n", config);
 
+    if(zam == 0 && config == 1 )
+        config1();
+
+    else if(zam == 0 && config ==2)
+        config2();
+
+    else if(zam == 0 && config ==3)
+        config3();
+
+    else if(zam == 0 && config ==4)
+        config4();
+
+    else if(zam == 1 && config ==1)
+        config1_zam();
+
+    else if(zam == 1 && config ==2)
+        config2_zam();
+
+    else if(zam == 1 && config ==3)
+        config3_zam();
+
+    else if(zam == 1 && config ==4)
+        config4_zam();
 
    while(1)
    {    
    }
 }
+
 
 
 void init_train()
@@ -84,6 +121,30 @@ void init_switches(int window_id_train)
     send(com_port,&msg); 
     wm_print(window_id_train, "Initialized Switches\n");
  
+}
+
+
+/*
+this function sets switches
+*/
+void set_switch(char sw_no, char col)
+{
+
+    char switch_command[5];
+    switch_command[0] = 'M';
+    switch_command[1] = sw_no;
+    switch_command[2] = col;
+    switch_command[3] = '\015';
+    switch_command[4] = '\0';
+
+    int len;
+    char* rec;
+    COM_Message msg;
+    msg.output_buffer = switch_command;
+    msg.len_input_buffer = len;
+    msg.input_buffer = rec;
+    send(com_port,&msg); 
+
 }
 
 /*
@@ -124,22 +185,22 @@ int check_for_zamboni_direction(void)
     int poll_3 = 0;
     int poll_4 = 0; 
     int poll_6 = 0;
-while(poll_4 == 0){
-    poll_4 = poll_track('4');
-}
+    while(poll_4 == 0){
+        poll_4 = poll_track('4');
+    }
 
-while( !(poll_3==1  || poll_6 == 1))
-{
-    poll_3 = poll_track('3');
-    poll_6 = poll_track('6');
-}
+    while( !(poll_3==1  || poll_6 == 1))
+    {
+        poll_3 = poll_track('3');
+        poll_6 = poll_track('6');
+    }
 
-if(poll_3==1){
-    return 2;
-}
+    if(poll_3==1){
+        return 2;
+    }
 
-else if(poll_6==1)
-    return 1;
+    else if(poll_6==1)
+        return 1;
 }
 
 /*
@@ -175,10 +236,58 @@ int determine_config()
 /*
 @info: this function start the train
 */
-void start_train()
+void start_train(char speed)
 {
+    char start_command[7];
+    start_command[0] = 'L';
+    start_command[1] = '2';
+    start_command[2] = '0';
+    start_command[3] = 'S';
+    start_command[4] = speed;
+    start_command[5] = '\015';
+    start_command[6] = '\0';
+    
+    
+    
+    int len ;
+    char* rec;
+    COM_Message msg;
+    msg.output_buffer = start_command;
+    msg.len_input_buffer = len;
+    msg.input_buffer = rec;
+    send(com_port,&msg); 
+}
+/*
+This function stops the train by setting its speed to 0
+*/
 
+void stop_train()
+{
+    char stop_command[] = "L20S0\015\0";
 
+    int len ;
+    char* rec;
+    COM_Message msg;
+    msg.output_buffer = stop_command;
+    msg.len_input_buffer = len;
+    msg.input_buffer = rec;
+    send(com_port,&msg); 
+}
+
+/*
+This function changes the direction of the train
+*/
+void change_direction()
+{
+    char direction_command[] = "L20D\015\0";
+
+    int len ;
+    char* rec;
+    COM_Message msg;
+    msg.output_buffer = direction_command;
+    msg.len_input_buffer = len;
+    msg.input_buffer = rec;
+    send(com_port,&msg); 
 }
 
 
@@ -278,6 +387,211 @@ void clear_serial_buffer(){
     //sleep(10);
 }
 
+
+
+
+
+void config1(){
+// set switches 5 and 6  to red
+set_switch('5','R');
+set_switch('6','R');
+sleep(2);
+// start train 
+start_train('4');
+sleep(2);
+// wait until it reaches 7
+while(poll_track('7')==0);
+//stop the train
+stop_train();
+// set 6 and 7 to green
+set_switch('6','G');
+set_switch('7','G');
+
+// start the train in reverse direction
+change_direction();
+start_train('4');
+//wait until it reaches 12
+while(poll_track_2('1','2')==0);
+
+//stop the train
+stop_train();
+// switch 7 to red and 8 to red
+set_switch('7','R');
+set_switch('8','R');
+set_switch('5','G');
+
+// start the train in reverse direction
+change_direction();
+start_train('4');
+// wait until you hit 13
+while(poll_track_2('1','3')==0);
+stop_train();
+
+//change the direction of the train
+change_direction();
+start_train('4');
+// wait until you reach 12
+while(poll_track_2('1','2')==0);
+
+//change 7 and 6 to green
+set_switch('6','G');
+set_switch('7','G');
+set_switch('5','R');
+//stop the train
+stop_train();
+//reverse the direction
+change_direction();
+// start the train
+start_train('4');
+//wait until 7
+while(poll_track('7')==0);
+// stop the train
+stop_train();
+// change direction
+change_direction();
+// start the train
+start_train('4');
+//change 5 and 6 to red
+set_switch('5','R');
+set_switch('6','R');
+//go until 8 
+while(poll_track('8')==0);
+
+//stop
+stop_train();
+}
+
+void config2()
+{
+    // set 1 and 2 switches to red
+    set_switch('1','R');
+    set_switch('2','R');
+    //start train
+    start_train('4');
+    //wait until it reaches 15 or 14
+    while(poll_track_2('1','4')==0 && poll_track_2('1','5') == 0);
+
+    //stop train
+    stop_train();
+    // reverser the train
+    change_direction();
+    // put 2 and 3 in green
+    set_switch('2','G');
+    set_switch('3','G');
+
+    // start the train
+    start_train('4');
+    // wait until it reaches 6
+    while(poll_track('6')==0 );
+
+    //switch 4 to red
+    set_switch('4','R');
+    // stop the train
+    stop_train();
+    // reverse the direction
+    change_direction();
+    // start the train
+    start_train('4');
+    // wait until the track train leaves the track
+    while(poll_track('6')==1);
+    // then switch 4 back
+    set_switch('4', 'G');
+    // wait until 15 or 14
+    while(poll_track_2('1','4')==0 && poll_track_2('1','5') == 0);
+
+    // stop the train
+    stop_train();
+    //flip 2 to red
+    set_switch('2','R');
+
+    // change the direction
+    change_direction();
+    // start the train
+    start_train('4');
+    //wait intil it reaches 12
+    while(poll_track_2('1','2')==0 );
+
+    // stop
+    stop_train();
+}
+void config3(){
+    
+    //set switches
+    // 2 to green
+    // 1 to red 
+    // 8 to red
+    // 7 to red
+    set_switch('2','G');
+    set_switch('1','R');
+    set_switch('8','R');
+    set_switch('7','R');
+    // change direction
+    change_direction();
+    // start train
+    start_train('5');
+    //while the train not is in 14 or 13 wait
+    while(poll_track_2('1','4')==0 && poll_track_2('1','3') == 0 );
+    //then switch 2 to red
+    set_switch('2','R');
+
+    // while train is not on 14 wait
+    while(poll_track_2('1','2')==0);
+    // then switch 8 to green
+    set_switch('8','G');
+    //4 t0 red
+    set_switch('4','R');
+
+    //3 to green    
+    set_switch('3','G');
+
+    // wait until it is in 2
+    while(poll_track('2')==0);
+
+    // stop 
+    stop_train();
+
+}
+
+void config4(){
+    //set 3 to red
+    set_switch('3','R');
+    // 4 to red
+    set_switch('4','R'); 
+    // 5 to green    
+    set_switch('5','G');
+    // 8 to green
+    set_switch('8','G');
+    // 1 to red
+    set_switch('1','R');
+    // 2 to red
+    set_switch('2','R');
+    // 7 to green
+    set_switch('7','G');
+    // 6 to green 
+    set_switch('6','G');
+    // start the train
+    start_train('5');
+    // wait until the train is on 14
+    while(poll_track_2('1','4')==0);
+    // set 5 to red
+    set_switch('5','R');
+    // wait until the train reaches 5
+    while(poll_track('5') == 0);
+    // stop the train
+    stop_train();
+}
+void config1_zam(){
+    
+}
+void config2_zam(){
+    
+}
+void config3_zam(){
+    
+}
+void config4_zam(){
+    
+}
 
 
 

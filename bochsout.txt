@@ -18,7 +18,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7fbc1d7ee010. after alignment, vector=0x7fbc1d7ef000
+00000000000i[MEM0  ] allocated memory at 0x7fa6076dc010. after alignment, vector=0x7fa6076dd000
 00000000000i[MEM0  ] 8.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=64
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
@@ -29,7 +29,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Fri Dec 21 12:56:18 2018 (time0=1545414978)
+00000000000i[CMOS  ] Setting initial clock to: Fri Dec 21 19:11:44 2018 (time0=1545437504)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -123,73 +123,73 @@
 00000321272i[BIOS  ] Shutdown flag 0
 00000321850i[BIOS  ] ram_size=0x00800000
 00000322250i[BIOS  ] ram_end=8MB
-00000772656i[BIOS  ] Found 1 cpu(s)
-00000786310i[BIOS  ] bios_table_addr: 0x000f9db8 end=0x000fcc00
-00000786350d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00000786356d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00000786381d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00000786387d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00000786427d[PCI   ] read  PCI register 0x59 value 0x00 (len=1)
-00000786436d[PCI   ] write PCI register 0x59 value 0x00 (len=1)
-00001114131d[PCI   ] write PCI register 0x59 value 0x30 (len=1)
-00001114131i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001442061i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001442080i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001442099i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001442118i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001442128i[P2ISA ] write: ELCR2 = 0x0a
-00001442898i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
-00001454620d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001454626d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001454646d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001454653d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001454668d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
-00001454677d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001454684d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001454693d[PCI   ] read  PCI register 0x0E value 0x00 (len=1)
-00001456526i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001456574d[PCI   ] read  PCI register 0x10 value 0x00000000 (len=4)
-00001456602d[PCI   ] read  PCI register 0x14 value 0x00000000 (len=4)
-00001456630d[PCI   ] read  PCI register 0x18 value 0x00000000 (len=4)
-00001456658d[PCI   ] read  PCI register 0x1C value 0x00000000 (len=4)
-00001456686d[PCI   ] read  PCI register 0x20 value 0x00000000 (len=4)
-00001456714d[PCI   ] read  PCI register 0x24 value 0x00000000 (len=4)
-00001456734d[PCI   ] write PCI register 0x30 value 0xFFFFFFFE (len=4)
-00001456740d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
-00001456753d[PCI   ] read  PCI register 0x3D value 0x00 (len=1)
-00001456963d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001456970d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001458843i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001459119d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001459126d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001460999i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001461234i[PIDE  ] BAR #4: i/o base address = 0xc000
-00001461850i[BIOS  ] region 4: 0x0000c000
-00001462039d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001462046d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001463919i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001464163i[ACPI  ] new IRQ line = 11
-00001464177i[ACPI  ] new IRQ line = 9
-00001464204i[ACPI  ] new PM base address: 0xb000
-00001464218i[ACPI  ] new SM base address: 0xb100
-00001464246d[PCI   ] write PCI register 0x72 value 0x4A (len=1)
-00001464246i[PCI   ] setting SMRAM control register to 0x4a
-00001628339i[CPU0  ] Enter to System Management Mode
-00001628350i[CPU0  ] RSM: Resuming from System Management Mode
-00001792371d[PCI   ] write PCI register 0x72 value 0x0A (len=1)
-00001792371i[PCI   ] setting SMRAM control register to 0x0a
-00001803927d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
-00001803933d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
-00001803952d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
-00001803960d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
-00001819045i[BIOS  ] MP table addr=0x000f9e90 MPC table addr=0x000f9dc0 size=0xc8
-00001820867i[BIOS  ] SMBIOS table addr=0x000f9ea0
-00001823040i[BIOS  ] ACPI tables: RSDP addr=0x000f9fc0 ACPI DATA addr=0x007f0000 size=0xff8
-00001826265i[BIOS  ] Firmware waking vector 0x7f00cc
-00001828736d[PCI   ] read  PCI register 0x59 value 0x30 (len=1)
-00001828745d[PCI   ] write PCI register 0x59 value 0x10 (len=1)
-00001828745i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001829468i[BIOS  ] bios_table_cur_addr: 0x000f9fe4
-00001958621i[VBIOS ] VGABios $Id: vgabios.c,v 1.77 2018/01/26 10:59:46 vruppert Exp $
-00001961628i[VBIOS ] VBE Bios $Id: vbe.c,v 1.66 2018/01/26 10:59:46 vruppert Exp $
-00028759762i[BIOS  ] Booting from 0000:7c00
+00000834156i[BIOS  ] Found 1 cpu(s)
+00000847810i[BIOS  ] bios_table_addr: 0x000f9db8 end=0x000fcc00
+00000847850d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00000847856d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00000847881d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00000847887d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00000847927d[PCI   ] read  PCI register 0x59 value 0x00 (len=1)
+00000847936d[PCI   ] write PCI register 0x59 value 0x00 (len=1)
+00001175631d[PCI   ] write PCI register 0x59 value 0x30 (len=1)
+00001175631i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001503561i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001503580i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001503599i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001503618i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001503628i[P2ISA ] write: ELCR2 = 0x0a
+00001504398i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001516120d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001516126d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001516146d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001516153d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001516168d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
+00001516177d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001516184d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001516193d[PCI   ] read  PCI register 0x0E value 0x00 (len=1)
+00001518026i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001518074d[PCI   ] read  PCI register 0x10 value 0x00000000 (len=4)
+00001518102d[PCI   ] read  PCI register 0x14 value 0x00000000 (len=4)
+00001518130d[PCI   ] read  PCI register 0x18 value 0x00000000 (len=4)
+00001518158d[PCI   ] read  PCI register 0x1C value 0x00000000 (len=4)
+00001518186d[PCI   ] read  PCI register 0x20 value 0x00000000 (len=4)
+00001518214d[PCI   ] read  PCI register 0x24 value 0x00000000 (len=4)
+00001518234d[PCI   ] write PCI register 0x30 value 0xFFFFFFFE (len=4)
+00001518240d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
+00001518253d[PCI   ] read  PCI register 0x3D value 0x00 (len=1)
+00001518463d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001518470d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001520343i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001520619d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001520626d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001522499i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001522734i[PIDE  ] BAR #4: i/o base address = 0xc000
+00001523350i[BIOS  ] region 4: 0x0000c000
+00001523539d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001523546d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001525419i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001525663i[ACPI  ] new IRQ line = 11
+00001525677i[ACPI  ] new IRQ line = 9
+00001525704i[ACPI  ] new PM base address: 0xb000
+00001525718i[ACPI  ] new SM base address: 0xb100
+00001525746d[PCI   ] write PCI register 0x72 value 0x4A (len=1)
+00001525746i[PCI   ] setting SMRAM control register to 0x4a
+00001689839i[CPU0  ] Enter to System Management Mode
+00001689850i[CPU0  ] RSM: Resuming from System Management Mode
+00001853871d[PCI   ] write PCI register 0x72 value 0x0A (len=1)
+00001853871i[PCI   ] setting SMRAM control register to 0x0a
+00001865427d[PCI   ] read  PCI register 0x00 value 0x8086 (len=2)
+00001865433d[PCI   ] read  PCI register 0x02 value 0x1237 (len=2)
+00001865452d[PCI   ] read  PCI register 0x0A value 0x0600 (len=2)
+00001865460d[PCI   ] read  PCI register 0x30 value 0x00000000 (len=4)
+00001880545i[BIOS  ] MP table addr=0x000f9e90 MPC table addr=0x000f9dc0 size=0xc8
+00001882367i[BIOS  ] SMBIOS table addr=0x000f9ea0
+00001884540i[BIOS  ] ACPI tables: RSDP addr=0x000f9fc0 ACPI DATA addr=0x007f0000 size=0xff8
+00001887765i[BIOS  ] Firmware waking vector 0x7f00cc
+00001890236d[PCI   ] read  PCI register 0x59 value 0x30 (len=1)
+00001890245d[PCI   ] write PCI register 0x59 value 0x10 (len=1)
+00001890245i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001890968i[BIOS  ] bios_table_cur_addr: 0x000f9fe4
+00002020121i[VBIOS ] VGABios $Id: vgabios.c,v 1.77 2018/01/26 10:59:46 vruppert Exp $
+00002023128i[VBIOS ] VBE Bios $Id: vbe.c,v 1.66 2018/01/26 10:59:46 vruppert Exp $
+00025832515i[BIOS  ] Booting from 0000:7c00
